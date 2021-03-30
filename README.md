@@ -17,7 +17,18 @@ Your API key is at: https://steamcommunity.com/dev/apikey
 
 You can lookup your 64bit steamID at https://steamidfinder.com/
 
-To run, install Node.js, run `npm start` in project folder, and connect to
+## How to install
+
+Install Node.js (with npm), then run
+```shell
+npm install
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+```
+You can add your games with custom logo position into seed in 
+`seeders` folder *before* migration.
+
+Run `npm start` in project folder to run, and connect to 
 http://YOUR_IP:7000 with your favourite browser (don't forget to put it 
 fullscreen mode).
 
