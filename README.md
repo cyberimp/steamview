@@ -1,4 +1,4 @@
-#Steam game display
+# Steam game display
 
 This app is tool for displaying logo of currently running 
 game in Steam on separate display. When game has 
