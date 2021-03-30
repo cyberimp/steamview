@@ -1,4 +1,4 @@
-#Steam game display
+# Steam game display
 
 Works only with one client now, two will overwrite same 
 files for picture cache (do I need it?). When game has 
