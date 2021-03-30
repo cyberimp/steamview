@@ -1,5 +1,6 @@
 const https = require('https');
 const keys = require('./api_key');
+const models = require("../models");
 
 const urlInfo = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+
     keys.KEY + "&steamids=" + keys.UID;
@@ -22,7 +23,8 @@ async function sendId(res, appId) {
             let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
             let hero_pic = hero_url;
             let logo_pic = logo_url;
-            let align = "left";
+            let game = await models.Games.findOne({where:{appid: appId}});
+            let align = game?game.align:"left";
 
             await httpsGetInfo(hero_url).catch(() => hero_pic = "/images/no_hero.png");
             await httpsGetInfo(logo_url).catch(() => {
