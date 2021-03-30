@@ -4,54 +4,35 @@ const keys = require('./api_key');
 const urlInfo = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+
     keys.KEY + "&steamids=" + keys.UID;
 let appId = null;
-const fs = require('fs');
 
-async function httpsGetSync (url, path){
-    let Stream = require('stream').Transform;
+
+async function httpsGetInfo (url){
     return new Promise(((resolve, reject) => {
-        https.get(url, res => {
-            let data = new Stream();
-            res.on('error', reject);
-            res.on('data', chunk => data.push(chunk));
-            res.on('end', () => {
-                if (res.statusCode === 404)
-                    reject(404);
-                else {
-                    fs.writeFileSync(path, data.read());
-                    resolve();
-                }
-            })
-        });
+        https.get(url, res =>
+            (res.statusCode<400)?resolve():reject()
+        );
     }));
 }
 
 async function sendId(res, appId) {
     if (appId === undefined)
-        res({logo: "default.png", hero: "no_hero.png", align: "absolute-center"});
+        res({logo: "/images/default.png", hero: "/images/no_hero.png", align: "absolute-center"});
     else{
-        let logoFname = "./public/images/logo_"+appId+".png"
-        let heroFname = "./public/images/hero_"+appId+".jpg"
-
-        if (fs.existsSync(logoFname))
-            res({logo: "logo_"+appId+".png", hero: "hero_"+appId+".jpg", align: "left"});
-        else
-        {
             let hero_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
             let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
-            let hero_pic = "hero_"+appId+".jpg";
-            let logo_pic = "logo_"+appId+".png";
+            let hero_pic = hero_url;
+            let logo_pic = logo_url;
             let align = "left";
 
-            await httpsGetSync(hero_url,heroFname).catch(() => hero_pic = "no_hero.png");
-            await httpsGetSync(logo_url,logoFname).catch(() => {
-                logo_pic = "default.png";
+            await httpsGetInfo(hero_url).catch(() => hero_pic = "/images/no_hero.png");
+            await httpsGetInfo(logo_url).catch(() => {
+                logo_pic = "/images/default.png";
                 align = "absolute-center";
             });
 
             res({logo: logo_pic, hero: hero_pic, align: align});
         }
 
-    }
     console.log(appId);
 }
 
@@ -74,8 +55,7 @@ async function getAppId() {
                     sendId(resolve, appId);
                 }
             })
-            .on("error", err => resolve(null))
-
+            .on("error", () => resolve(null))
     });
 }
 

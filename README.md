@@ -1,8 +1,8 @@
 #Steam game display
 
-Works only with one client now, two will overwrite same 
-files for picture cache (do I need it?). When game has 
-no logo, displays steam logo.
+This app is tool for displaying logo of currently running 
+game in Steam on separate display. When game has 
+no logo, or no game is running, displays steam logo.
 
 You need to write your own `custom/api_key.js` 
 with following content:
