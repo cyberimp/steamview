@@ -1,7 +1,7 @@
 const https = require('https');
 const keys = require('./api_key');
 
-const Games = require("../models").Games;
+const models = require("../models");
 
 const urlInfo = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+
     keys.KEY + "&steamids=" + keys.UID;
@@ -27,7 +27,7 @@ async function sendId(res, appId) {
         let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
         let hero_pic = hero_url;
         let logo_pic = logo_url;
-        let game = await Games.findOne({where: {appid: appId}});
+        let game = await models.Games.findOne({where: {appid: appId}});
         let align = game?game.align:"left";
 
         await httpsGetInfo(hero_url).catch(() => hero_pic = defaultHero);
@@ -43,19 +43,19 @@ async function sendId(res, appId) {
 }
 
 
-async function getAppId() {
+async function getAppId(force) {
     return new Promise(resolve => {
         let answer = "";
         https.get(urlInfo, res => {
             res.on("data", chunk => {
-                answer+=chunk.toString();
+                answer += chunk.toString();
             })
         })
             .on("close", ()=>{
                 console.log("got steam page!");
 
                 let gameid = JSON.parse(answer).response.players[0].gameid;
-                if (appId === gameid)
+                if (appId === gameid && !force)
                     resolve(null);
                 else {
                     appId = gameid;
@@ -66,4 +66,9 @@ async function getAppId() {
     });
 }
 
+function curAppId() {
+    return appId;
+}
+
 module.exports.getAppId = getAppId;
+module.exports.curAppId = curAppId;
