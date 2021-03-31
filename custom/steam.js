@@ -18,22 +18,22 @@ async function httpsGetInfo (url){
 async function sendId(res, appId) {
     if (appId === undefined)
         res({logo: "/images/default.png", hero: "/images/no_hero.png", align: "absolute-center"});
-    else{
-            let hero_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
-            let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
-            let hero_pic = hero_url;
-            let logo_pic = logo_url;
-            let game = await models.Games.findOne({where:{appid: appId}});
-            let align = game?game.align:"left";
+    else {
+        let hero_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+        let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
+        let hero_pic = hero_url;
+        let logo_pic = logo_url;
+        let game = await models.Games.findOne({where:{appid: appId}});
+        let align = game?game.align:"left";
 
-            await httpsGetInfo(hero_url).catch(() => hero_pic = "/images/no_hero.png");
-            await httpsGetInfo(logo_url).catch(() => {
-                logo_pic = "/images/default.png";
-                align = "absolute-center";
-            });
+        await httpsGetInfo(hero_url).catch(() => hero_pic = "/images/no_hero.png");
+        await httpsGetInfo(logo_url).catch(() => {
+            logo_pic = "/images/default.png";
+            align = "absolute-center";
+        });
 
-            res({logo: logo_pic, hero: hero_pic, align: align});
-        }
+        res({logo: logo_pic, hero: hero_pic, align: align});
+    }
 
     console.log(appId);
 }
