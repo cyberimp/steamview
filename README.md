@@ -22,8 +22,7 @@ You can lookup your 64bit steamID at https://steamidfinder.com/
 Install Node.js (with npm), then run
 ```shell
 npm install
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
+npm run createdb
 ```
 You can add your games with custom logo position into seed in 
 `seeders` folder *before* migration.

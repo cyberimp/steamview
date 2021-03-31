@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
+  }
   Games.init({
     appid: DataTypes.STRING,
     align: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Games',
+    timestamps: false,
   });
   return Games;
 };

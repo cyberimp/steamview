@@ -5,34 +5,28 @@ module.exports = {
 
     return queryInterface.bulkInsert('Games', [{
       appid: "233150",
-      align: "center",
-      createdAt: new Date(),
-      updatedAt: new Date()
+      align: "center"
     },{
       appid: "239200",
       align: "absolute-center",
-      createdAt: new Date(),
-      updatedAt: new Date()
     },{
       appid: "57300",
       align: "absolute-center",
-      createdAt: new Date(),
-      updatedAt: new Date()
     },{
       appid: "65930",
       align: "center",
-      createdAt: new Date(),
-      updatedAt: new Date()
     },{
       appid: "469820",
       align: "absolute-center",
-      createdAt: new Date(),
-      updatedAt: new Date()
     },{
       appid: "105600",
       align: "absolute-center",
-      createdAt: new Date(),
-      updatedAt: new Date()
+    },{
+      appid: "322330",
+      align: "left-stretch",
+    },{
+      appid: "245170",
+      align: "left-stretch",
     }], {});
     /**
      * Add seed commands here.
