@@ -66,9 +66,4 @@ async function getAppId(force) {
     });
 }
 
-function curAppId() {
-    return appId;
-}
-
 module.exports.getAppId = getAppId;
-module.exports.curAppId = curAppId;
