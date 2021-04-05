@@ -1,54 +1,39 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
 
     return queryInterface.bulkInsert('Games', [{
-      appid: "233150",
+      appid: 233150,
       align: "center"
     },{
-      appid: "239200",
+      appid: 239200,
       align: "absolute-center",
     },{
-      appid: "57300",
+      appid: 57300,
       align: "absolute-center",
     },{
-      appid: "65930",
+      appid: 65930,
       align: "center",
     },{
-      appid: "469820",
+      appid: 469820,
       align: "absolute-center",
     },{
-      appid: "105600",
+      appid: 105600,
       align: "absolute-center",
     },{
-      appid: "322330",
+      appid: 322330,//Don't Starve Together
       align: "left-stretch",
     }, {
-      appid: "245170",
+      appid: 245170,//Skullgirls
       align: "left-stretch",
     }, {
-      appid: "211260",
+      appid: 211260,//They Bleed Pixels
       align: "left-stretch",
     }], {});
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     return queryInterface.bulkDelete('Games', null, {});
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
   }
 };

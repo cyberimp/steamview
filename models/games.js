@@ -14,8 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Games.init({
-    appid: DataTypes.STRING,
-    align: DataTypes.STRING
+    appid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    align: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Games',

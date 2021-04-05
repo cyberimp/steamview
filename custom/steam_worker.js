@@ -14,6 +14,7 @@ parentPort.on("message", async (msg) =>
 })
 
 async function work() {
+    // noinspection InfiniteLoopJS
     while (true) {
         let appInfo = await steam.getAppId(false);
         if (appInfo) {

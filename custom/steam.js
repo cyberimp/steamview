@@ -1,12 +1,23 @@
 const https = require('https');
 const keys = require('./api_key');
-
+/***
+ *
+ * @type {object}
+ * @property {sequelize.Model} Games
+ */
 const models = require("../models");
 
 const urlInfo = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+
     keys.KEY + "&steamids=" + keys.UID;
 let appId = null;
 
+/***
+ * @typedef ISteamUser
+ * @type {object}
+ * @property {number} [gameid]
+ * @property {number} steamid
+ * @property {string} personaname
+ */
 
 async function httpsGetInfo (url){
     return new Promise((resolve, reject) => {
@@ -27,8 +38,12 @@ async function sendId(res, appId) {
         let logo_url = "https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/logo.png";
         let hero_pic = hero_url;
         let logo_pic = logo_url;
-        let game = await models.Games.findOne({where: {appid: appId}});
-        let align = game?game.align:"left";
+        /***
+         * @type {?object}
+         * @property {string} align
+         */
+        let gameInfo = await models.Games.findByPk(appId, {attributes: ['align']});
+        let align = gameInfo?gameInfo.align:"left";
 
         await httpsGetInfo(hero_url).catch(() => hero_pic = defaultHero);
         await httpsGetInfo(logo_url).catch(() => {
@@ -53,12 +68,16 @@ async function getAppId(force) {
         })
             .on("close", ()=>{
                 console.log("got steam page!");
-
-                let gameid = JSON.parse(answer).response.players[0].gameid;
-                if (appId === gameid && !force)
+                /***
+                 * @type {object}
+                 * @property {ISteamUser[]} players
+                 */
+                let SteamUser = JSON.parse(answer).response
+                let gameId = SteamUser.players[0].gameid;
+                if (appId === gameId && !force)
                     resolve(null);
                 else {
-                    appId = gameid;
+                    appId = gameId;
                     sendId(resolve, appId);
                 }
             })
