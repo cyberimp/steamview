@@ -24,8 +24,11 @@ module.exports = {
     },{
       appid: "322330",
       align: "left-stretch",
-    },{
+    }, {
       appid: "245170",
+      align: "left-stretch",
+    }, {
+      appid: "211260",
       align: "left-stretch",
     }], {});
     /**
